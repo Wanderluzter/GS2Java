@@ -20,48 +20,52 @@ public class EquipamentoDAO {
     public String inserir(Equipamento equipamento) throws SQLException {
         PreparedStatement stmt = null;
         try {
-            stmt = minhaConexao.prepareStatement
-                ("INSERT INTO EQUIPAMENTO (id_equip, nome_equip, marca_equip, ano_equip, consumo_equip, status_equip, usuario_equip) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            stmt = minhaConexao.prepareStatement(
+                "INSERT INTO EQUIPAMENTO (id_equip, nome_equip, marca_equip, ano_equip, consumo_equip, status_equip, usuario_equip) VALUES (?, ?, ?, ?, ?, ?, ?)");
+
             stmt.setInt(1, equipamento.getId());
             stmt.setString(2, equipamento.getNome());
-            stmt.setString(3, equipamento.getMarca());
+            stmt.setString(3, equipamento.getMarca()); 
             stmt.setInt(4, equipamento.getAno());
             stmt.setDouble(5, equipamento.getConsumo());
-            stmt.setString(6, equipamento.getStatus());
+            stmt.setString(6, equipamento.getStatus()); 
             stmt.setString(7, equipamento.getUsuario());
-            stmt.execute();
+
+            stmt.executeUpdate();
             return "Cadastrado com Sucesso!";
         } finally {
             if (stmt != null) stmt.close();
             if (minhaConexao != null) minhaConexao.close();
         }
     }
+
     // Delete
     public String deletar(int idEquip) throws SQLException {
         PreparedStatement stmt = null;
         try {
-            stmt = minhaConexao.prepareStatement
-                ("DELETE * FROM EQUIPAMENTO WHERE equip_id = ?");
+            stmt = minhaConexao.prepareStatement("DELETE FROM EQUIPAMENTO WHERE id_equip = ?");
             stmt.setInt(1, idEquip);
-            stmt.execute();
+            stmt.executeUpdate();
             return "Deletado com Sucesso!";
         } finally {
             if (stmt != null) stmt.close();
             if (minhaConexao != null) minhaConexao.close();
         }
     }
+
     // Update
     public String atualizar(Equipamento equipamento) throws SQLException {
         PreparedStatement stmt = null;
         try {
             stmt = minhaConexao.prepareStatement
-                ("UPDATE EQUIPAMENTO SET nome_equip = ?, marca_equip = ?, ano_equip = ?, consumo_equip = ?, status_equip = ? WHERE id_equip = ?");
-            stmt.setString(1, equipamento.getNome());
-            stmt.setString(2, equipamento.getMarca());
-            stmt.setInt(3, equipamento.getAno());
-            stmt.setString(4, equipamento.getStatus());
-            stmt.setDouble(5, equipamento.getConsumo());
-            stmt.setInt(6, equipamento.getId());
+                ("UPDATE EQUIPAMENTO SET nome_equip = ?, marca_equip = ?, ano_equip = ?, consumo_equip = ?, status_equip = ?, usuario_equip = ? WHERE id_equip = ?");
+            stmt.setString(1, equipamento.getNome());      
+            stmt.setString(2, equipamento.getMarca());     
+            stmt.setInt(3, equipamento.getAno());          
+            stmt.setDouble(4, equipamento.getConsumo());   
+            stmt.setString(5, equipamento.getStatus());   
+            stmt.setString(6, equipamento.getUsuario());   
+            stmt.setInt(7, equipamento.getId());           
             stmt.executeUpdate();
             return "Atualizado com Sucesso!";
         } finally {
@@ -79,13 +83,13 @@ public class EquipamentoDAO {
             rs = stmt.executeQuery();
             while(rs.next()) {
             	Equipamento equipamento = new Equipamento();
-            	equipamento.setId(rs.getInt(1));
-            	equipamento.setNome(rs.getString(2));
-            	equipamento.setMarca(rs.getString(3));
-            	equipamento.setAno(rs.getInt(4));
-            	equipamento.setConsumo(rs.getDouble(5));
-            	equipamento.setStatus(rs.getString(6));
-            	equipamento.setUsuario(rs.getString(7));
+            	equipamento.setId(rs.getInt("id_equip"));
+            	equipamento.setNome(rs.getString("nome_equip"));
+            	equipamento.setMarca(rs.getString("marca_equip"));
+            	equipamento.setAno(rs.getInt("ano_equip"));
+            	equipamento.setConsumo(rs.getDouble("consumo_equip"));
+            	equipamento.setStatus(rs.getString("status_equip"));
+            	equipamento.setUsuario(rs.getString("usuario_equip"));
                 listaEquipamento.add(equipamento);
             }
             return listaEquipamento;
@@ -104,13 +108,13 @@ public class EquipamentoDAO {
         // Processa o resultado, se houver
         if (rs.next()) {
         	Equipamento equipamento = new Equipamento();
-        	equipamento.setId(rs.getInt(1));
-        	equipamento.setNome(rs.getString(2));
-        	equipamento.setMarca(rs.getString(3));
-        	equipamento.setAno(rs.getInt(4));
-        	equipamento.setConsumo(rs.getDouble(5));
-        	equipamento.setStatus(rs.getString(6));
-        	equipamento.setUsuario(rs.getString(7));
+        	equipamento.setId(rs.getInt("id_equip"));
+        	equipamento.setNome(rs.getString("nome_equip"));
+        	equipamento.setMarca(rs.getString("marca_equip"));
+        	equipamento.setAno(rs.getInt("ano_equip"));
+        	equipamento.setConsumo(rs.getDouble("consumo_equip"));
+        	equipamento.setStatus(rs.getString("status_equip"));
+        	equipamento.setUsuario(rs.getString("usuario_equip"));
             // Fecha recursos
             rs.close();
             stmt.close();
